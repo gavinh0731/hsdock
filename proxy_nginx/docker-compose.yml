@@ -1,0 +1,35 @@
+version: '3'
+services:
+  nginx_proxy01:
+    image: ttom921/nginx:v1.21.1_with_stream
+    container_name: nginx_proxy01
+    ports:
+      # web
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+      # liveview
+      - "1935:1935"
+      # ftp
+      - "2201:2201"
+      - "2202:2202"
+      # kafka
+      - "2181:2181"
+      - "9097:9097"
+      - "9098:9098"
+      - "9099:9099"
+      # elasticsearch
+      - "9200:9200"
+      - "9300:9300"
+      # syslog
+      - "514:514"
+      - "514:514/udp"
+
+    volumes:
+      # ---------------- nginx  ----------------
+      - ./docker_config/nginx.conf:/etc/nginx/nginx.conf
+      # -----------------html ------------------
+      - /usr/local/nginx/html:/usr/local/nginx/html
+      # -----------------log -------------------
+      - /tmp:/var/log/nginx
+    
