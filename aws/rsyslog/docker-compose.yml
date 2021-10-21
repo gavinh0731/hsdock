@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  app:
+    image: voxxit/rsyslog
+    ports:
+      - "514:514"
+      - "514:514/udp"
+    volumes:
+      - ./rsyslog.d:/etc/rsyslog.d
+    restart: always
+    networks:
+      - my-proxy-net
+
+networks:
+  my-proxy-net:
+    external:
+      name: elk_network

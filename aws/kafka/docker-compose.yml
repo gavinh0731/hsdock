@@ -1,0 +1,87 @@
+version: '3.4'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+       - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    #volumes:
+    #  - /data/docker/kafka/zookeeper:/opt/zookeeper-3.4.13/data
+
+  kafka-cluster-1:
+    image: wurstmeister/kafka
+    #restart: "no"
+    restart: always
+    hostname: kafka-cluster-1
+    container_name: kafka-cluster-1
+    ports:
+       - "9097:9097"
+    environment:
+      KAFKA_BROKER_ID: 1        # broker id
+      #KAFKA_ADVERTISED_HOST_NAME: 172.30.50.50
+      KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9097
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://3.113.200.169:9097
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181   # zookeeper的連接地址
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 #可有可無
+    volumes:
+      - /data/docker/kafka/kafka1:/kafka
+      - /var/run/docker.sock:/var/run/docker.sock
+      #--------log相關----------------------------
+      - ./docker_config/kf01/log4j.properties:/opt/kafka/config/log4j.properties
+      - /tmp:/opt/kafka/logs
+
+  kafka-cluster-2:
+    image: wurstmeister/kafka
+    #restart: "no"
+    restart: always
+    hostname: kafka-cluster-2
+    container_name: kafka-cluster-2
+    ports:
+       - "9098:9098"
+    environment:
+      KAFKA_BROKER_ID: 2        # broker id
+      #KAFKA_ADVERTISED_HOST_NAME: 172.30.50.50
+      KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9098
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://3.113.200.169:9098
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181   # zookeeper的連接地址
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 #可有可無
+    volumes:
+      - /data/docker/kafka/kafka2:/kafka
+      - /var/run/docker.sock:/var/run/docker.sock
+      #--------log相關----------------------------
+      - ./docker_config/kf02/log4j.properties:/opt/kafka/config/log4j.properties
+      - /tmp:/opt/kafka/logs
+
+  kafka-cluster-3:
+    image: wurstmeister/kafka
+    #restart: "no"
+    restart: always
+    hostname: kafka-cluster-3
+    container_name: kafka-cluster-3
+    ports:
+       - "9099:9099"
+    environment:
+      KAFKA_BROKER_ID: 3        # broker id
+      #KAFKA_ADVERTISED_HOST_NAME: 172.30.50.50
+      KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9099
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://3.113.200.169:9099
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181   # zookeeper的連接地址
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 #可有可無
+    volumes:
+      - /data/docker/kafka/kafka3:/kafka
+      - /var/run/docker.sock:/var/run/docker.sock
+      #--------log相關----------------------------
+      - ./docker_config/kf03/log4j.properties:/opt/kafka/config/log4j.properties
+      - /tmp:/opt/kafka/logs
+

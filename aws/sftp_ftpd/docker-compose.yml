@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  ftpd:
+    image: hs_supervisord_crontab:python3.9
+    # restart: "no"
+    restart: always
+    hostname: ${CONTAINER_NAME}_ftpd
+    container_name: ${CONTAINER_NAME}_ftpd
+    # ports:
+    #   - "80:80"
+    volumes:
+      # ---------------- code  ----------------
+      - ~/server.viewtec/code:/app
+      - ~/docker/${CONTAINER_NAME}/upload:/data/upload
+      - /media/vdisk/events:/media/vdisk/events
+      # ---------------- OS System ----------------
+      - ~/docker/${CONTAINER_NAME}_ftpd/docker_config/run-cron:/etc/cron.d/run-cron      
+      - ~/docker/${CONTAINER_NAME}_ftpd/docker_config/supervisord-debian.conf:/etc/supervisor/conf.d/supervisord.conf
+      # ---------------- FTP Node ----------------
+      - ~/docker/${CONTAINER_NAME}_ftpd/.env:/tmp/ftp.conf
+        # - logfile 要在tmp下先建立sftp1.log---------
+      - type: bind
+        source: /tmp/sftp1.log
+        target: /tmp/sftp1.log
+      
