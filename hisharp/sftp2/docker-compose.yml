@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+  sftp:
+    restart: always
+    container_name: ${CONTAINER_NAME}
+    image: atmoz/sftp
+    volumes:
+        - ~/docker/${CONTAINER_NAME}/upload:/home/hisharp/upload # sudo chown r2user:r2user /data/docker/sftp/${FTP_UPLOAD_DIR}
+    ports:
+        #- "2222:22"
+        - "${EXTERNAL_PORT}:22"
+    command: hisharp:${FTP_PASSWORD}:1001
+      

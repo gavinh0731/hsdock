@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  srs:
+    image: ossrs/srs
+    # restart: "no"
+    restart: always
+    container_name: srs
+    ports:
+      - "1935:1935"
+      - "1985:1985"
+      - "8080:8080"
+    volumes:
+      - ~/docker/srs/docker_config/hls.conf:/usr/local/srs/conf/srs.conf
+      - ~/docker/srs/objs/:/usr/local/srs/objs/
+      - /usr/share/nginx/html/livedata:/usr/share/nginx/html/livedata
+      # - logfile 要在tmp下先建立 srs.log ---------
+      #- /tmp/srs.log:/usr/local/srs/objs/srs.log 
+      - type: bind
+        source: /tmp/srs.log
+        target: //usr/local/srs/objs/srs.log 
+ 

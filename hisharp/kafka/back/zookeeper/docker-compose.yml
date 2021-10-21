@@ -1,0 +1,22 @@
+version: '3.5'
+services:
+  zk-01:
+    image: wurstmeister/zookeeper
+    #restart: always
+    hostname: zk-01
+    container_name: zk-01
+    ports:
+       - "2181:2181" # client port
+       #- "2888:2888" # follower port
+       #- "3888:3888" # election port
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      #ZOO_MY_ID: 1 # this zookeeper's id, and others zookeeper node distinguishing
+      #ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=第二台虚拟机IP:2888:3888;2181 server.3=第三台虚拟机IP:2888:3888;2181
+      #ZOO_SERVERS: zk-01=0.0.0.0:2888:3888;2181 # zookeeper services list
+    volumes:
+      - /data/docker/kafka/zookeeper:/opt/zookeeper-3.4.13/data
+    #network_mode: "host"
+   
+  
+
