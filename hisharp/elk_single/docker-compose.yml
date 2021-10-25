@@ -34,7 +34,7 @@ services:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:$ELK_VERSION
     environment:
-      - "ELASTICSEARCH_HOSTS=http:/elasticsearch:9200"
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
       - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "5044:5044"

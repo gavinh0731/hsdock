@@ -11,9 +11,13 @@ services:
       - bootstrap.memory_lock=true
       - discovery.seed_hosts=elasticsearch,es7_warm,es7_cold
       - cluster.initial_master_nodes=elasticsearch,es7_warm,es7_cold
-      - node.master=true
-      - node.data=true
+      # - node.master=true  are deprecated,
+      # - node.data=true    are deprecated,
       - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.keystore.path=elastic-certificates.p12
+      - xpack.security.transport.ssl.truststore.path=elastic-certificates.p12
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - ELASTIC_PASSWORD=Hisharp6f
     ulimits:
@@ -25,6 +29,7 @@ services:
         hard: 65536
     volumes:
       # - ./es1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/elastic-certificates.p12:/usr/share/elasticsearch/config/elastic-certificates.p12:ro
       - hwc_es7data_hot:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
@@ -43,8 +48,12 @@ services:
       - discovery.seed_hosts=elasticsearch,es7_warm,es7_cold
       - cluster.initial_master_nodes=elasticsearch,es7_warm,es7_cold
       # - node.master=false
-      - node.data=true
+      # - node.data=true    are deprecated,
       - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.keystore.path=elastic-certificates.p12
+      - xpack.security.transport.ssl.truststore.path=elastic-certificates.p12
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - ELASTIC_PASSWORD=Hisharp6f
     ulimits:
@@ -56,6 +65,7 @@ services:
         hard: 65536
     volumes:
       #- ./es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/elastic-certificates.p12:/usr/share/elasticsearch/config/elastic-certificates.p12:ro
       - hwc_es7data_warm:/usr/share/elasticsearch/data
     # ports:
     #   - 9200:9201
@@ -74,8 +84,12 @@ services:
       - discovery.seed_hosts=elasticsearch,es7_warm,es7_cold
       - cluster.initial_master_nodes=elasticsearch,es7_warm,es7_cold
       # - node.master=false
-      - node.data=true
+      # - node.data=true    are deprecated,
       - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.keystore.path=elastic-certificates.p12
+      - xpack.security.transport.ssl.truststore.path=elastic-certificates.p12
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - ELASTIC_PASSWORD=Hisharp6f
     ulimits:
@@ -87,6 +101,7 @@ services:
         hard: 65536
     volumes:
       #- ./es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/elastic-certificates.p12:/usr/share/elasticsearch/config/elastic-certificates.p12:ro
       - hwc_es7data_cold:/usr/share/elasticsearch/data
     # ports:
     #   - 9200:9202
@@ -99,7 +114,7 @@ services:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:$ELK_VERSION
     environment:
-      - ELASTICSEARCH_HOSTS=http:/elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "5044:5044"
