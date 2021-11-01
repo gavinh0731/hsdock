@@ -10,6 +10,10 @@ services:
       - node.attr.box_type=hot
       - bootstrap.memory_lock=true
       - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.keystore.path=elastic-certificates.p12
+      - xpack.security.transport.ssl.truststore.path=elastic-certificates.p12
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - ELASTIC_PASSWORD=Hisharp6f
     ulimits:
@@ -21,6 +25,7 @@ services:
         hard: 65536
     volumes:
       # - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/elastic-certificates.p12:/usr/share/elasticsearch/config/elastic-certificates.p12:ro
       - /data/docker/elk-single/data:/usr/share/elasticsearch/data
       # - ../../docker_data/elk-single/logs:/usr/share/elasticsearch/logs
     ports:
