@@ -1,0 +1,29 @@
+version: '3.7' 
+services:
+  srs:
+    image: ossrs/srs:4
+    restart: "no"
+    #restart: always
+    container_name: srs4
+    ports:
+      - "1935:1935"
+      - "1985:1985"
+      - "8000:8000"
+      - "8000:8000/udp"
+      - "8080:8080"
+      - "8443:8443"
+      - "9090:9090"
+    volumes:
+      #- ~/docker/srs4/docker_config/hls.conf:/usr/local/srs/conf/docker.conf
+      #- ~/docker/srs4/docker_config/http.hls.conf:/usr/local/srs/conf/docker.conf
+      # - ~/docker/srs4/docker_config/https.hls.conf:/usr/local/srs/conf/docker.conf
+      - ~/docker/srs4/docker_config/https.rtc.conf:/usr/local/srs/conf/docker.conf
+      # ssl data
+      - ~/docker/srs4/ssldata/privkey.pem:/usr/local/srs/conf/server.key
+      - ~/docker/srs4/ssldata/cert.pem:/usr/local/srs/conf/server.crt
+      #- ~/docker/srs4/ssldata/server.key:/usr/local/srs/conf/server.key
+      #- ~/docker/srs4/ssldata/server.crt:/usr/local/srs/conf/server.crt
+      - ~/docker/srs4/objs/:/usr/local/srs/objs/
+      - /usr/share/nginx/html/livedata:/usr/share/nginx/html/livedata
+      # - logfile 要在tmp下先建立 srs.log ---------
+      - /tmp/srs4.log:/usr/local/srs/objs/srs.log

@@ -3,7 +3,7 @@ worker_processes auto;
 events {
     use   epoll;
     multi_accept on;
-    worker_connections  2048;
+    worker_connections  1024;
 }
 
 stream {
@@ -15,38 +15,39 @@ stream {
                  ' st=$session_time  uct="$upstream_connect_time"'
                  ;
 
-    access_log /var/log/nginx/access.log proxy ;
+    access_log /var/log/nginx/proxy_access.log proxy ;
+	error_log  /var/log/nginx/proxy_error.log warn;
 
     #-----------html/api-------------------
-    upstream TCP80 {
-        server 172.30.10.6:80;
-        server 172.30.10.6:8880;
+    upstream TCP81 {
+        server 192.168.40.209:81;
+        #server 172.30.10.6:8880;
     }
     server {
-        listen 80;
+        listen 80 ;
         proxy_connect_timeout 90s;
         #proxy_timeout 30s;
-        proxy_pass TCP80;
+        proxy_pass TCP81;
 		#-- 真實IP的配置,加入本地的IP過濾
-		set_real_ip_from 172.30.0.0/16;
+		set_real_ip_from 172.0.0.0/8; 
         proxy_protocol    on;
     }
-	upstream TCP443 {
-        server 172.30.10.6:443;
-		server 172.30.10.6:8881;
-    }
-    server {
-        listen 443;
-        proxy_connect_timeout 90s;
-        #proxy_timeout 30s;
-        proxy_pass TCP443;
-		#-- 真實IP的配置,加入本地的IP過濾
-		set_real_ip_from 172.30.0.0/16;
-        proxy_protocol    on;
-    }
+	#pstream TCP443 {
+    #   server 172.30.10.6:443;
+	#server 172.30.10.6:8881;
+    #
+    #server {
+    #    listen 443;
+    #    proxy_connect_timeout 90s;
+    #    #proxy_timeout 30s;
+    #    proxy_pass TCP443;
+	#	#-- 真實IP的配置,加入本地的IP過濾
+	#	set_real_ip_from 172.30.0.0/16;
+    #    proxy_protocol    on;
+    #}
     # ---------------rtmp-------------
     upstream TCP1935 {
-        server 172.30.30.5:1935;
+        server 192.168.40.155:1935;
     }
     server {
         listen 1935;
@@ -56,7 +57,7 @@ stream {
     }
     # 8080 port
     upstream TCP8080 {
-        server 172.30.30.5:8080;
+        server 192.168.40.155:8080;
     }
     server {
         listen 8080;
@@ -67,7 +68,7 @@ stream {
 	
 	# -------------kafka--------------
     upstream TCP2181 {
-        server 172.30.50.50:2181;
+        server 192.168.40.155:2181;
     }
     server {
         listen 2181;
@@ -77,7 +78,7 @@ stream {
     }
 
     upstream TCP9097 {
-        server 172.30.50.50:9097;
+        server 192.168.40.155:9097;
     }
     server {
         listen 9097;
@@ -87,7 +88,7 @@ stream {
     }
 
     upstream TCP9098 {
-        server 172.30.50.50:9098;
+        server 192.168.40.155:9098;
     }
     server {
         listen 9098;
@@ -97,7 +98,7 @@ stream {
     }
 
     upstream TCP9099 {
-        server 172.30.50.50:9099;
+        server 192.168.40.155:9099;
     }
     server {
         listen 9099;
@@ -108,7 +109,7 @@ stream {
 
     # -------------ftp------------------------
     upstream TCP2201 {
-        server 172.30.30.5:2201;
+        server 192.168.40.155:2201;
     }
     server {
         listen 2201;
@@ -118,7 +119,7 @@ stream {
     }
 
     upstream TCP2202 {
-        server 172.30.30.5:2202;
+        server 192.168.40.155:2202;
     }
     server {
         listen 2202;
@@ -129,7 +130,7 @@ stream {
 
     # -------------elasticsearch------------------------
     upstream TCP9200 {
-        server 172.30.20.5:9200;
+        server 192.168.40.155:9200;
     }
     server {
         listen 9200;
@@ -138,7 +139,7 @@ stream {
         proxy_pass TCP9200;
     }
     upstream TCP9300 {
-        server 172.30.20.5:9300;
+        server 192.168.40.155:9300;
     }
     server {
         listen 9300;
@@ -149,7 +150,7 @@ stream {
 
     # -------------syslog------------------------
     upstream TCP514 {
-        server 172.30.20.5:514;
+        server 192.168.40.155:514;
     }
     server {
         listen 514;
@@ -158,7 +159,7 @@ stream {
         proxy_pass TCP514;
     }
     upstream UDP514 {
-        server 172.30.20.5:514;
+        server 192.168.40.155:514;
     }
     server {
         listen 514 udp;
