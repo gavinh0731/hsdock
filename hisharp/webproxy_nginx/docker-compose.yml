@@ -1,33 +1,13 @@
 version: '3.7'
 services:
-  nginx_proxy01:
+  web_nginx_proxy01:
     image: ttom921/nginx:v1.20.1_with_stream
-    container_name: nginx_proxy01
+    container_name: web_nginx_proxy01
     ports:
       # web
-      #- "80:80"
+      - "80:80"
       #- "88:88"
       #- "443:443"
-      # liveview
-      - "1935:1935"
-      - "8080:8080"
-      # liveview webrtc
-      - "1985:1985"
-      - "8000:8000/udp" 
-      # ftp
-      - "2201:2201"
-      - "2202:2202"
-      # kafka
-      - "2181:2181"
-      - "9097:9097"
-      - "9098:9098"
-      - "9099:9099"
-      # elasticsearch
-      - "9200:9200"
-      - "9300:9300"
-      # syslog
-      - "514:514"
-      - "514:514/udp"
 
     volumes:
       # ---------------- nginx  ----------------

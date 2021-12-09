@@ -1,12 +1,12 @@
 server {
-   #        listen 80;
-   #    listen 443 ssl;
+   # listen 80;
+   # listen 443 ssl;
    # ---真實IP---------------
    listen 80 proxy_protocol; #負責解開data資訊
-   listen 443 ssl http2  proxy_protocol;
+   #listen 443 ssl http2  proxy_protocol;
    
    # ---真實IP---------------
-   set_real_ip_from 172.30.0.0/16;
+   set_real_ip_from 172.0.0.0/8;
    real_ip_header  proxy_protocol;
    proxy_http_version 1.1;
    proxy_set_header Connection "";
@@ -18,19 +18,19 @@ server {
    #     include uwsgi_params;
    #     uwsgi_pass unix:///tmp/uwsgi.sock;
    # }
-
-    
-    server_name nvtfms.com www.nvtfms.com ;
 	
 
+    server_name hs2;
+
+	
 #    ssl on;      #開啟的話只能使用https
-    ssl_certificate      /etc/nginx/fullchain.pem;
-    ssl_certificate_key  /etc/nginx/privkey.pem;
-    ssl_session_timeout 5m;
-    ssl_ciphers ALL:!aNULL:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    #ssl_certificate      /etc/nginx/fullchain.pem;
+    #ssl_certificate_key  /etc/nginx/privkey.pem;
+    #ssl_session_timeout 5m;
+    #ssl_ciphers ALL:!aNULL:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
     
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_prefer_server_ciphers on;
+    #ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    #ssl_prefer_server_ciphers on;
 
     uwsgi_ignore_client_abort on;
     uwsgi_read_timeout 300;
@@ -39,7 +39,7 @@ server {
     proxy_read_timeout 300;
     proxy_send_timeout 120;
     limit_conn addr 2048;
-
+	
 
     #error_page 404 /404.html;
 
@@ -47,15 +47,21 @@ server {
     #   root /usr/share/nginx/html/;
     #   allow   all;
     #}
-
+	
     location / {
         alias /usr/share/nginx/html/;
         try_files $uri $uri/ /index.html;
 #        root /usr/share/nginx/html/;
 #        index index.html index.htm;
     }
-    
-  
+    #v0.5版開發版的html client
+    location /fmsclient {
+        alias /usr/share/nginx/htfmsclient05/;
+        try_files $uri $uri/ /fmsclient/index.html;
+
+    }
+
+
     #v0.5版的html Server
     location /fmsserver {
         alias /usr/share/nginx/htfmsserver05/;
@@ -97,5 +103,4 @@ server {
     }
 
     include /etc/nginx/location_v0.5.conf;
-
 }
