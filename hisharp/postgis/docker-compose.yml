@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    restart: always
+    image: postgis/postgis:14-3.2
+    container_name: postgis
+    volumes:
+      - /data/docker/postgresql/:/var/lib/postgresql/data/pgdata/
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: hisharp
+      POSTGRES_PASSWORD: Hisharp6f
+      ALLOW_IP_RANGE: 0.0.0.0/0
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+
+#    pgadmin:
+#    restart: always
+#    image: dpage/pgadmin4:latest
+#    container_name: pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@163.com #在此填寫pgAdmin登錄賬戶郵箱
+#      PGADMIN_DEFAULT_PASSWORD: admin #在此填寫pgAdmin密碼
+#    ports:
+#      - "5050:80"

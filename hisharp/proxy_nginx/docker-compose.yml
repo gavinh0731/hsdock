@@ -30,6 +30,10 @@ services:
       - "514:514/udp"
       # redis
       - "6379:6379"
+      # postgreSQL
+      - "5432:5432"
+      # rabbitmq
+      - "5673:5673"
 
     volumes:
       # ---------------- nginx  ----------------
