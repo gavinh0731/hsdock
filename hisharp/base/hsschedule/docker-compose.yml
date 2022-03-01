@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  supervisord:
+    image: hisharp_supervisord_crontab:python3.9
+    # restart: "no"
+    restart: always
+    hostname: supervisord_crontab 
+    container_name: supervisord_crontab 
+    # ports:
+    #   - "80:80"
+    volumes:
+      # ---------------- code  ----------------
+      - ~/server.viewtec/code:/app
+      - /data/docker/sftp/upload:/data/upload
+      - /media/vdisk/events:/media/vdisk/events
+      # ---------------- OS System ----------------
+      - ~/docker/supervisord_crontab/docker_config/run-cron:/etc/cron.d/run-cron      
+      - ~/docker/supervisord_crontab/docker_config/supervisord-debian.conf:/etc/supervisor/conf.d/supervisord.conf
+      
+
