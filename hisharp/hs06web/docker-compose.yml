@@ -34,7 +34,7 @@ services:
       - /usr/share/nginx/html/events:/usr/share/nginx/html/events
       - /usr/share/nginx/html/fws:/usr/share/nginx/html/fws
       - /usr/share/nginx/html/event/images:/usr/share/nginx/html/event/images
-      # -----------------restar docker -------------------
+      # -----------------restart docker -------------------
       - /tmp/restart_docker:/tmp/restart_docker
       # -----------------log -------------------
       #- /tmp:/var/log/nginx
