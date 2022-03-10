@@ -11,7 +11,7 @@ services:
       #- "443:443"
     volumes:
       # ---------------- code  ----------------
-      - ~/server06/code:/app
+      - /home/hisharp/server06/code:/app
       - /media/vdisk:/media/vdisk
       # ---------------- supervisord ----------------
       - ./docker_config/supervisord-uwsgi-kafka.conf:/etc/supervisor/conf.d/supervisord.conf
