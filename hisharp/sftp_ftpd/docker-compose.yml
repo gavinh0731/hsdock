@@ -13,6 +13,7 @@ services:
       - ~/server.viewtec/code:/app
       - ~/docker/${CONTAINER_NAME}/upload:/data/upload
       - /media/vdisk/events:/media/vdisk/events
+      - /media/vdisk/dvrlog:/media/vdisk/dvrlog
       # ---------------- OS System ----------------
       - ~/docker/${CONTAINER_NAME}_ftpd/docker_config/run-cron:/etc/cron.d/run-cron      
       - ~/docker/${CONTAINER_NAME}_ftpd/docker_config/supervisord-debian.conf:/etc/supervisor/conf.d/supervisord.conf
