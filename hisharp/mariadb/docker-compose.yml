@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  mariadb-galera:
+    container_name: mariadb-galera
+    image: docker.io/bitnami/mariadb-galera:10.6
+    ports:
+      - '3306:3306'
+      - '4444:4444'
+      - '4567:4567'
+      - '4568:4568' 
+      - '4567:4567/udp'
+    volumes:
+      - '/data/mariadb_galera_data:/bitnami/mariadb'
+      - './docker_config/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf'
+
+    environment:
+      - MARIADB_GALERA_CLUSTER_NAME=db_galera 
+      - MARIADB_GALERA_MARIABACKUP_USER=my_mariabackup_user 
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=my_mariabackup_password 
+      - MARIADB_ROOT_PASSWORD=Hisharp6f
+      - MARIADB_USER=hisharp 
+      - MARIADB_PASSWORD=Hisharp6f 
+      #- MARIADB_DATABASE=my_database 
+      - MARIADB_REPLICATION_USER=my_replication_user 
+      - MARIADB_REPLICATION_PASSWORD=my_replication_password 
+      - MARIADB_GALERA_NODE_ADDRESS=172.20.20.5
+      # 第一次起動要加                                                                                   
+      - MARIADB_GALERA_CLUSTER_BOOTSTRAP=yes 
+  
+    #network_mode: "host"
+
