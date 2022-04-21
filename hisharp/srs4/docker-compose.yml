@@ -24,6 +24,9 @@ services:
       #- ~/docker/srs4/ssldata/server.key:/usr/local/srs/conf/server.key
       #- ~/docker/srs4/ssldata/server.crt:/usr/local/srs/conf/server.crt
       - ~/docker/srs4/objs/:/usr/local/srs/objs/
+      # 本機測試
+      # - ~/docker/srs4/objs/nginx/html:/usr/share/nginx/html/livedata
+      # 連接遠端Storage主機
       - /usr/share/nginx/html/livedata:/usr/share/nginx/html/livedata
       # - logfile 要在tmp下先建立 srs.log ---------
       - /tmp/srs4.log:/usr/local/srs/objs/srs.log
