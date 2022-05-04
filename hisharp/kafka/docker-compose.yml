@@ -11,19 +11,19 @@ services:
       - /data/docker/kafka/zookeeper:/opt/zookeeper-3.4.13/data
 
   kafka-cluster-1:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.8.1
     #restart: "no"
     restart: always
     hostname: kafka-cluster-1
     container_name: kafka-cluster-1
     ports:
-       - "9097:9097"
+      - "9097:9097"
     environment:
       KAFKA_BROKER_ID: 1        # broker id
       #KAFKA_ADVERTISED_HOST_NAME: 172.30.50.50
       KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9097
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://192.168.40.155:9097
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://192.168.40.209:9097
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181   # zookeeper的連接地址
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
@@ -36,19 +36,19 @@ services:
       - /tmp:/opt/kafka/logs
 
   kafka-cluster-2:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.8.1
     #restart: "no"
     restart: always
     hostname: kafka-cluster-2
     container_name: kafka-cluster-2
     ports:
-       - "9098:9098"
+      - "9098:9098"
     environment:
       KAFKA_BROKER_ID: 2        # broker id
       #KAFKA_ADVERTISED_HOST_NAME: 172.30.50.50
       KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9098
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://192.168.40.155:9098
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://192.168.40.209:9098
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181   # zookeeper的連接地址
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
@@ -61,19 +61,19 @@ services:
       - /tmp:/opt/kafka/logs
 
   kafka-cluster-3:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.8.1
     #restart: "no"
     restart: always
     hostname: kafka-cluster-3
     container_name: kafka-cluster-3
     ports:
-       - "9099:9099"
+      - "9099:9099"
     environment:
       KAFKA_BROKER_ID: 3        # broker id
       #KAFKA_ADVERTISED_HOST_NAME: 172.30.50.50
       KAFKA_HEAP_OPTS: -Xmx256M -Xms256M
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9099
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://192.168.40.155:9099
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://192.168.40.209:9099
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181   # zookeeper的連接地址
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
